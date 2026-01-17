@@ -36,11 +36,12 @@ expense-tracker/
 
 ## 🎨 Screenshots
 
-| Landing Page | Dashboard |
-|--------------|-----------|
-| ![Landing](public/screenshots/landing.png) | ![Dashboard](public/screenshots/dashboard.png) |
+| Landing Page | Dashboard |Transaction|
+|--------------|-----------|------------
+| ![Landing](public/screenshots/landing.png) | ![Dashboard](public/screenshots/dashboard.png) | ![Transaction] (public/screenshots/transaction.png)
 
 <div align="center">
 <img src="public/screenshots/landing.png" width="400" alt="Landing Page" />
 <img src="public/screenshots/dashboard.png" width="400" alt="Dashboard" />
+<img src="public/screenshots/transaction.png" width="400" alt="Transaction" />
 </div>
