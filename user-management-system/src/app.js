@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const fileRoutes = require('./routes/fileRoutes'); 
 
 dotenv.config();
 
@@ -15,20 +16,21 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api', userRoutes);
-app.use('/api', productRoutes); 
+app.use('/api', productRoutes);
+app.use('/api', fileRoutes);
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'User & Product Management System API',
-        version: '2.0.0',
+        message: 'User, Product & File Management System API',
+        version: '3.0.0',
         endpoints: {
             // User endpoints
             users: {
-                createUser: 'POST /api/users',
-                getAllUsers: 'GET /api/users',
-                getUser: 'GET /api/users/:id',
-                updateUser: 'PUT /api/users/:id',
-                deleteUser: 'DELETE /api/users/:id'
+                createUser: 'POST /api/users (Auth Required)',
+                getAllUsers: 'GET /api/users (Auth Required)',
+                getUser: 'GET /api/users/:id (Auth Required)',
+                updateUser: 'PUT /api/users/:id (Auth Required)',
+                deleteUser: 'DELETE /api/users/:id (Auth Required)'
             },
             // Product endpoints
             products: {
@@ -40,11 +42,27 @@ app.get('/', (req, res) => {
                 deleteProduct: 'DELETE /api/products/:id (Auth Required)',
                 getStats: 'GET /api/products/stats',
                 getByCategory: 'GET /api/products/category/:category'
+            },
+            // File endpoints (NEW)
+            files: {
+                uploadSingle: 'POST /api/files/upload (Auth Required)',
+                uploadMultiple: 'POST /api/files/upload-multiple (Auth Required)',
+                getAllFiles: 'GET /api/files',
+                getFileMetadata: 'GET /api/files/metadata/:filename',
+                downloadFile: 'GET /api/files/download/:filename',
+                viewFile: 'GET /api/files/view/:filename',
+                deleteFile: 'DELETE /api/files/:filename (Auth Required)',
+                getStats: 'GET /api/files/stats'
             }
         },
         authentication: {
             type: 'Basic Authentication',
             credentials: 'admin/password123 (Required for protected routes)'
+        },
+        fileUpload: {
+            maxSize: '10MB per file',
+            maxFiles: '5 files per upload',
+            allowedTypes: 'Images (jpg, png, gif), Documents (pdf, doc, xls, ppt), Audio/Video (mp3, mp4), Zip, Text'
         }
     });
 });
@@ -69,6 +87,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log(`API Base URL: http://localhost:${PORT}/api`);
+    
 });
 
 module.exports = app;
